@@ -1,0 +1,5 @@
+apis:
+  api@v1:
+    root: http://localhost:3000/api/v1/openapi.yaml
+    x-openapi-ts:
+      output: ./src/lib/openapi/schemas/apiv1.ts
