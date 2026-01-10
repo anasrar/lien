@@ -13,7 +13,13 @@ import (
 	"github.com/gofiber/fiber/v2/middleware/filesystem"
 )
 
-func Register(app *fiber.App, port int, cwd string) {
+func Register(
+	app *fiber.App,
+	port int,
+	cwd string,
+	resumable bool,
+	foreceDownload bool,
+) {
 	app.Route("/api/v1", func(r fiber.Router) {
 		config := huma.DefaultConfig("API v1", "0.0.0")
 		RegisterCustomOpenApiDocScalar(&config, port, r, "/api/v1")
@@ -29,9 +35,9 @@ func Register(app *fiber.App, port int, cwd string) {
 
 	app.Static("/dl", cwd, fiber.Static{
 		Compress:  false,
-		ByteRange: true,
+		ByteRange: resumable,
 		Browse:    false,
-		Download:  true,
+		Download:  foreceDownload,
 	})
 
 	{

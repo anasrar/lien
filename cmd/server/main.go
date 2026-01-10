@@ -14,8 +14,10 @@ import (
 )
 
 type Options struct {
-	Port int    `help:"Port to listen on" short:"p" default:"3000"`
-	Root string `help:"Root path to serve" short:"r" default:"./"`
+	Port          int    `help:"Port to listen on" short:"p" default:"3000"`
+	Root          string `help:"Root path to serve" short:"r" default:"./"`
+	Resumable     bool   `help:"Allow for download to be resume or video being seekable" short:"c" default:"false"`
+	ForceDownload bool   `help:"Force browser to download instead of show in builtin preview" short:"d" default:"false"`
 }
 
 func main() {
@@ -32,7 +34,13 @@ func main() {
 		}
 
 		app := fiber.New()
-		router.Register(app, options.Port, cwd)
+		router.Register(
+			app,
+			options.Port,
+			cwd,
+			options.Resumable,
+			options.ForceDownload,
+		)
 
 		hooks.OnStart(func() {
 			app.Listen(fmt.Sprintf(":%d", options.Port))
