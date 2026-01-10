@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"log"
 	"os"
+	"path/filepath"
 	"time"
 
 	"github.com/anasrar/lien/internal/router"
@@ -13,17 +14,23 @@ import (
 )
 
 type Options struct {
-	Port int `help:"Port to listen on" short:"p" default:"3000"`
+	Port int    `help:"Port to listen on" short:"p" default:"3000"`
+	Root string `help:"Root path to serve" short:"r" default:"./"`
 }
 
 func main() {
 	cwd, err := os.Getwd()
-	// TODO: argument for set the CWD
 	if err != nil {
 		log.Fatalln(err)
 	}
 
 	cli := humacli.New(func(hooks humacli.Hooks, options *Options) {
+		if filepath.IsAbs(options.Root) {
+			cwd = filepath.Clean(options.Root)
+		} else {
+			cwd = filepath.Join(cwd, options.Root)
+		}
+
 		app := fiber.New()
 		router.Register(app, options.Port, cwd)
 
