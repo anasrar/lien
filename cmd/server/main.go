@@ -14,6 +14,7 @@ import (
 )
 
 type Options struct {
+	Host          string `help:"Host to listen on" short:"l" default:"127.0.0.1"`
 	Port          int    `help:"Port to listen on" short:"p" default:"3000"`
 	Root          string `help:"Root path to serve" short:"r" default:"./"`
 	Resumable     bool   `help:"Allow for download to be resume or video being seekable" short:"c" default:"false"`
@@ -43,7 +44,7 @@ func main() {
 		)
 
 		hooks.OnStart(func() {
-			app.Listen(fmt.Sprintf(":%d", options.Port))
+			app.Listen(fmt.Sprintf("%s:%d", options.Host, options.Port))
 		})
 
 		hooks.OnStop(func() {
