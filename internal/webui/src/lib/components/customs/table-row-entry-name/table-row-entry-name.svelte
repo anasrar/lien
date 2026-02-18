@@ -13,11 +13,19 @@
 	let { isDirectory, name, cwd, setCwd }: TableRowEntryNameProps = $props();
 
 	const ICON_SIZE = 16;
+
+	const href = $derived.by(() => {
+		return isDirectory
+			? "./?cwd=" + encodeURIComponent(cwd + name + "/")
+			: window.location.origin + "/dl" + (cwd + name).slice(1);
+	});
 </script>
 
-<button
+<a
+	{href}
 	class="flex cursor-pointer flex-row items-center gap-2"
-	onclick={() => {
+	onclick={(ev) => {
+		ev.preventDefault();
 		if (!isDirectory) {
 			window.open(window.location.origin + "/dl" + (cwd + name).slice(1), "_blank");
 			return;
@@ -31,4 +39,4 @@
 		<FileIcon size={ICON_SIZE} />
 	{/if}
 	{name}
-</button>
+</a>
