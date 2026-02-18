@@ -5,7 +5,13 @@
 	import { ModeWatcher } from "mode-watcher";
 	import { QueryClient, QueryClientProvider } from "@tanstack/svelte-query";
 
-	const queryClient = new QueryClient();
+	const queryClient = new QueryClient({
+		defaultOptions: {
+			queries: {
+				refetchOnWindowFocus: false,
+			},
+		},
+	});
 	let { children } = $props();
 </script>
 
