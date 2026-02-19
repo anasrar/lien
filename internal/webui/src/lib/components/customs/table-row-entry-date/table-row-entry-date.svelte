@@ -13,7 +13,7 @@
 </script>
 
 <div class="text-center">
-	<span class="hidden sm:inline">
+	<span class="hidden whitespace-nowrap sm:inline">
 		{date}
 	</span>
 	<Tooltip.Provider>

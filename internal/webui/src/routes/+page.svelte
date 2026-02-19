@@ -10,7 +10,6 @@
 		type SortingState,
 	} from "@tanstack/table-core";
 	import { createSvelteTable, FlexRender, renderComponent } from "$lib/components/ui/data-table";
-	import * as Table from "$lib/components/ui/table";
 	import { TableRowEntryName } from "@/components/customs/table-row-entry-name";
 	import { TableRowEntryDate } from "@/components/customs/table-row-entry-date";
 	import { TableHeaderName } from "@/components/customs/table-header-name";
@@ -173,46 +172,55 @@
 		<div class="mx-auto max-w-2xl">
 			<div class="p-2">
 				<div class="rounded-md border">
-					<Table.Root>
-						<Table.Header>
+					<table class="w-full table-fixed">
+						<thead class="sticky top-0">
 							{#each table.getHeaderGroups() as headerGroup (headerGroup.id)}
-								<Table.Row>
+								<tr>
 									{#each headerGroup.headers as header (header.id)}
-										<Table.Head colspan={header.colSpan} class="w-full">
+										<th
+											colspan={header.colSpan}
+											class={`${header.column.getIndex() === 1 ? "w-2/8 sm:w-1/3" : "w-6/8 sm:w-2/3"}`}
+										>
 											{#if !header.isPlaceholder}
 												<FlexRender
 													content={header.column.columnDef.header}
 													context={header.getContext()}
 												/>
 											{/if}
-										</Table.Head>
+										</th>
 									{/each}
-								</Table.Row>
+								</tr>
 							{/each}
-						</Table.Header>
-						<Table.Body>
+						</thead>
+						<tbody class="divide-y">
 							{#each table.getRowModel().rows as row (row.id)}
-								<Table.Row data-state={row.getIsSelected() && "selected"}>
+								<tr>
 									{#each row.getVisibleCells() as cell (cell.id)}
-										<Table.Cell>
+										<td class="px-4 py-2">
 											<FlexRender
 												content={cell.column.columnDef.cell}
 												context={cell.getContext()}
 											/>
-										</Table.Cell>
+										</td>
 									{/each}
-								</Table.Row>
+								</tr>
 							{:else}
 								{#if query.isFetching}
 									{#each Array(5)}
-										<Table.Row class="animate-pulse">
-											<Table.Cell><div class="h-5 w-28 rounded bg-gray-500"></div></Table.Cell>
-											<Table.Cell><div class="h-5 sm:w-40 rounded bg-gray-500"></div></Table.Cell>
-										</Table.Row>
+										<tr class="animate-pulse">
+											<td class="px-4 py-2">
+												<div class="h-6 w-32 rounded bg-gray-500"></div>
+											</td>
+											<td class="px-4 py-2">
+												<div class="flex justify-center">
+													<div class="h-6 w-6 sm:w-50 rounded bg-gray-500"></div>
+												</div>
+											</td>
+										</tr>
 									{/each}
 								{:else}
-									<Table.Row>
-										<Table.Cell colspan={columns.length} class="h-24 text-center">
+									<tr>
+										<td colspan={columns.length} class="h-24 text-center">
 											{#if query.data?.error}
 												{query.data?.error?.detail}
 											{:else if entries.length === 0}
@@ -220,12 +228,12 @@
 											{:else if table.getColumn("name")?.getFilterValue() !== ""}
 												Search Not Found
 											{/if}
-										</Table.Cell>
-									</Table.Row>
+										</td>
+									</tr>
 								{/if}
 							{/each}
-						</Table.Body>
-					</Table.Root>
+						</tbody>
+					</table>
 				</div>
 			</div>
 		</div>

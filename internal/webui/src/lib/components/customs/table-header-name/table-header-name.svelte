@@ -15,7 +15,7 @@
 	let { name, sortingHandler, isSorted }: TableHeaderNameProps = $props();
 </script>
 
-<div>
+<div class="border-b py-2 text-center backdrop-blur-xl">
 	<Button variant="ghost" class="cursor-pointer text-center" onclick={sortingHandler}>
 		{name}
 		{#if isSorted === "asc"}

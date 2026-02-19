@@ -15,7 +15,7 @@
 	let { name, sortingHandler, isSorted }: TableHeaderModTimeProps = $props();
 </script>
 
-<div class="text-center">
+<div class="border-b py-2 text-center backdrop-blur-xl">
 	<Button variant="ghost" class="cursor-pointer text-center" onclick={sortingHandler}>
 		<span class="hidden sm:inline">
 			{name}

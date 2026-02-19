@@ -34,9 +34,11 @@
 	}}
 >
 	{#if isDirectory}
-		<FolderIcon size={ICON_SIZE} />
+		<FolderIcon size={ICON_SIZE} class="flex-shrink-0" />
 	{:else}
-		<FileIcon size={ICON_SIZE} />
+		<FileIcon size={ICON_SIZE} class="flex-shrink-0" />
 	{/if}
-	{name}
+	<span class="min-w-0 truncate">
+		{name}
+	</span>
 </a>
